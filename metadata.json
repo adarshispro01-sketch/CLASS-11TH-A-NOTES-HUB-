@@ -1,0 +1,6 @@
+{
+  "name": "Class 11th A Notes Hub",
+  "description": "A collaborative study-themed notes sharing and learning hub for Class 11th A students.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
