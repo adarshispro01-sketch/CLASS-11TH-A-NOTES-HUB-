@@ -5,6 +5,7 @@ interface SubjectBindersProps {
   selectedSubject: string;
   onSelectSubject: (subject: string) => void;
   notes: StudyNote[];
+  theme: "dark" | "light";
 }
 
 const SUBJECTS_INFO = [
@@ -84,16 +85,29 @@ export default function SubjectBinders({
   selectedSubject,
   onSelectSubject,
   notes,
+  theme,
 }: SubjectBindersProps) {
   return (
-    <div id="subject-binders-shelf" className="w-full bg-[#fdfbf7] border border-amber-900/10 p-5 rounded-2xl shadow-sm relative overflow-hidden">
-      <div className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-t from-amber-900/10 to-transparent pointer-events-none" />
+    <div id="subject-binders-shelf" className={`w-full border p-5 rounded-2xl shadow-sm relative overflow-hidden transition-all duration-350 ${
+      theme === "dark"
+        ? "bg-slate-900/85 border-slate-800 text-white"
+        : "bg-[#fdfbf7] border-amber-900/10 text-slate-900"
+    }`}>
+      <div className={`absolute inset-x-0 bottom-0 h-2 pointer-events-none ${
+        theme === "dark"
+          ? "bg-gradient-to-t from-slate-950/20 to-transparent"
+          : "bg-gradient-to-t from-amber-900/10 to-transparent"
+      }`} />
       
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xs font-mono font-semibold text-slate-500 uppercase tracking-widest">
+        <h3 className={`text-xs font-mono font-semibold uppercase tracking-widest ${
+          theme === "dark" ? "text-slate-400" : "text-slate-500"
+        }`}>
           Study Binder Rack
         </h3>
-        <span className="text-[10px] text-amber-900 font-serif font-bold">
+        <span className={`text-[10px] font-serif font-bold ${
+          theme === "dark" ? "text-amber-400" : "text-amber-900"
+        }`}>
           Class 11th Syllabus Binders
         </span>
       </div>
@@ -114,8 +128,12 @@ export default function SubjectBinders({
               onClick={() => onSelectSubject(sub.name)}
               className={`flex h-28 rounded-xl overflow-hidden text-left border relative transition-all duration-200 ${
                 isSelected
-                  ? `ring-2 ring-amber-800 shadow-md translate-y-[-4px] ${sub.borderColor}`
-                  : `border-slate-200 hover:border-amber-900/20 hover:shadow-sm hover:translate-y-[-2px] bg-white`
+                  ? theme === "dark"
+                    ? "ring-2 ring-amber-500 shadow-lg translate-y-[-4px] border-amber-500 bg-slate-950"
+                    : `ring-2 ring-amber-800 shadow-md translate-y-[-4px] ${sub.borderColor}`
+                  : theme === "dark"
+                    ? "border-slate-800 hover:border-amber-500/20 hover:shadow-sm hover:translate-y-[-2px] bg-slate-950/40"
+                    : "border-slate-200 hover:border-amber-900/20 hover:shadow-sm hover:translate-y-[-2px] bg-white"
               }`}
             >
               {/* Spine edge of binder */}
@@ -129,25 +147,39 @@ export default function SubjectBinders({
               </div>
 
               {/* Binder Cover */}
-              <div className="flex-1 p-3.5 flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-white to-slate-50/25">
+              <div className={`flex-1 p-3.5 flex flex-col justify-between relative overflow-hidden transition-colors ${
+                theme === "dark"
+                  ? "bg-gradient-to-b from-slate-900 to-slate-950/50"
+                  : "bg-gradient-to-b from-white to-slate-50/25"
+              }`}>
                 {/* Visual binder tabs */}
                 <div className="absolute top-0 right-0 w-8 h-8 bg-amber-500/5 rounded-full translate-x-3 -translate-y-3 pointer-events-none" />
 
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <Icon className={`w-3.5 h-3.5 ${isSelected ? "text-amber-800" : "text-slate-400"}`} />
+                    <Icon className={`w-3.5 h-3.5 ${
+                      isSelected
+                        ? theme === "dark" ? "text-amber-400" : "text-amber-800"
+                        : "text-slate-400"
+                    }`} />
                     <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 font-sans">
                       {sub.name === "General" ? "Folder" : "Binder"}
                     </span>
                   </div>
-                  <h4 className="font-serif text-xs font-extrabold text-slate-900 leading-tight mt-1 truncate max-w-full">
+                  <h4 className={`font-serif text-xs font-extrabold leading-tight mt-1 truncate max-w-full ${
+                    theme === "dark" ? "text-slate-100" : "text-slate-900"
+                  }`}>
                     {sub.label}
                   </h4>
                 </div>
 
-                <div className="flex items-baseline justify-between pt-2 border-t border-slate-100">
-                  <span className="text-[9px] font-mono text-slate-500 uppercase">Documents</span>
-                  <span className="text-xs font-bold text-slate-900 font-mono">
+                <div className={`flex items-baseline justify-between pt-2 border-t text-[9px] font-mono ${
+                  theme === "dark" ? "border-slate-800 text-slate-400" : "border-slate-100 text-slate-500"
+                }`}>
+                  <span className="uppercase">Documents</span>
+                  <span className={`text-xs font-bold font-mono ${
+                    theme === "dark" ? "text-slate-100" : "text-slate-900"
+                  }`}>
                     {count}
                   </span>
                 </div>

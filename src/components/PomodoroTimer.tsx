@@ -1,15 +1,37 @@
 import { useState, useEffect, useRef } from "react";
 import { Play, Pause, RotateCcw, Flame, Coffee } from "lucide-react";
 
-export default function PomodoroTimer() {
-  const [focusDuration, setFocusDuration] = useState(25);
-  const [breakDuration, setBreakDuration] = useState(5);
+export default function PomodoroTimer({ theme = "dark" }: { theme?: "dark" | "light" }) {
+  const [focusDuration, setFocusDurationState] = useState(() => {
+    const saved = localStorage.getItem("study_hub_focus_duration");
+    return saved ? parseInt(saved) : 25;
+  });
+  const [breakDuration, setBreakDurationState] = useState(() => {
+    const saved = localStorage.getItem("study_hub_break_duration");
+    return saved ? parseInt(saved) : 5;
+  });
 
-  const [minutes, setMinutes] = useState(25);
+  const setFocusDuration = (val: number | ((prev: number) => number)) => {
+    setFocusDurationState(prev => {
+      const next = typeof val === "function" ? val(prev) : val;
+      localStorage.setItem("study_hub_focus_duration", next.toString());
+      return next;
+    });
+  };
+
+  const setBreakDuration = (val: number | ((prev: number) => number)) => {
+    setBreakDurationState(prev => {
+      const next = typeof val === "function" ? val(prev) : val;
+      localStorage.setItem("study_hub_break_duration", next.toString());
+      return next;
+    });
+  };
+
+  const [minutes, setMinutes] = useState(focusDuration);
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
-  const [totalSeconds, setTotalSeconds] = useState(25 * 60);
+  const [totalSeconds, setTotalSeconds] = useState(focusDuration * 60);
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -106,11 +128,15 @@ export default function PomodoroTimer() {
   const strokeDashoffset = 283 - (283 * percentage) / 100;
 
   return (
-    <div id="pomodoro-timer-widget" className="p-5 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50/50 border border-amber-900/10 shadow-sm relative overflow-hidden">
+    <div id="pomodoro-timer-widget" className={`p-5 rounded-2xl border shadow-sm relative overflow-hidden transition-colors ${
+      theme === "dark" ? "bg-slate-900 border-slate-800 text-white" : "bg-gradient-to-br from-amber-50 to-orange-50/50 border-amber-900/10 text-slate-900"
+    }`}>
       <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-full -translate-y-6 translate-x-6 pointer-events-none" />
       
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-semibold tracking-wide uppercase text-amber-900 font-sans flex items-center gap-2">
+        <h3 className={`text-sm font-semibold tracking-wide uppercase font-sans flex items-center gap-2 ${
+          theme === "dark" ? "text-amber-400" : "text-amber-900"
+        }`}>
           {isBreak ? (
             <>
               <Coffee className="w-4 h-4 text-emerald-600 animate-bounce" />
@@ -123,7 +149,9 @@ export default function PomodoroTimer() {
             </>
           )}
         </h3>
-        <span className="text-[10px] bg-amber-900/10 text-amber-900 px-2 py-0.5 rounded-full font-mono font-medium">
+        <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-medium ${
+          theme === "dark" ? "bg-slate-850 text-slate-300" : "bg-amber-900/10 text-amber-900"
+        }`}>
           {focusDuration}/{breakDuration} min
         </span>
       </div>
@@ -136,7 +164,7 @@ export default function PomodoroTimer() {
               cx="48"
               cy="48"
               r="41"
-              className="stroke-amber-900/5 fill-none"
+              className={`fill-none ${theme === "dark" ? "stroke-slate-800" : "stroke-amber-900/5"}`}
               strokeWidth="6"
             />
             <circle
@@ -144,7 +172,7 @@ export default function PomodoroTimer() {
               cy="48"
               r="41"
               className={`fill-none transition-all duration-300 ${
-                isBreak ? "stroke-emerald-600" : "stroke-amber-800"
+                isBreak ? "stroke-emerald-600" : (theme === "dark" ? "stroke-amber-500" : "stroke-amber-800")
               }`}
               strokeWidth="6"
               strokeDasharray="257.6"
@@ -153,10 +181,10 @@ export default function PomodoroTimer() {
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-xl font-bold font-mono tracking-tight text-slate-900">
+            <span className={`text-xl font-bold font-mono tracking-tight ${theme === "dark" ? "text-slate-100" : "text-slate-900"}`}>
               {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
             </span>
-            <span className="text-[9px] text-slate-500 font-medium">
+            <span className={`text-[9px] font-medium ${theme === "dark" ? "text-slate-400" : "text-slate-500"}`}>
               {isBreak ? "Rest" : "Focus"}
             </span>
           </div>

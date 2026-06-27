@@ -1,0 +1,60 @@
+{
+  "entities": {
+    "Note": {
+      "title": "Study Note",
+      "description": "A study note uploaded by a student",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "subject": { "type": "string" },
+        "content": { "type": "string" },
+        "author": { "type": "string" },
+        "date": { "type": "string" },
+        "fileAttached": { "type": "boolean" },
+        "fileName": { "type": "string" },
+        "fileDataUrl": { "type": "string" }
+      },
+      "required": ["id", "title", "subject", "content"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "An announcement on the notice board",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "tag": { "type": "string" },
+        "author": { "type": "string" },
+        "date": { "type": "string" }
+      },
+      "required": ["id", "title", "content"]
+    },
+    "Config": {
+      "title": "System Configuration",
+      "description": "System config containing key academic dates",
+      "type": "object",
+      "properties": {
+        "pt1Date": { "type": "string" },
+        "pt2Date": { "type": "string" },
+        "pt3Date": { "type": "string" },
+        "boardExamDate": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "/notes/{noteId}": {
+      "schema": "Note",
+      "description": "Collection of study notes"
+    },
+    "/announcements/{announcementId}": {
+      "schema": "Announcement",
+      "description": "Notice board announcements"
+    },
+    "/config/system-config": {
+      "schema": "Config",
+      "description": "System configuration document"
+    }
+  }
+}

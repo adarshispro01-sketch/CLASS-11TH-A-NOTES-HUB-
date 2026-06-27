@@ -13,6 +13,7 @@ interface UploadFormProps {
     fileName?: string;
   }) => Promise<void>;
   currentUserEmail: string;
+  theme: "dark" | "light";
 }
 
 const SUBJECT_OPTIONS: Array<StudyNote["subject"]> = [
@@ -25,7 +26,7 @@ const SUBJECT_OPTIONS: Array<StudyNote["subject"]> = [
   "General",
 ];
 
-export default function UploadForm({ onAddNote, currentUserEmail }: UploadFormProps) {
+export default function UploadForm({ onAddNote, currentUserEmail, theme }: UploadFormProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [subject, setSubject] = useState<StudyNote["subject"]>("General");
@@ -48,9 +49,9 @@ export default function UploadForm({ onAddNote, currentUserEmail }: UploadFormPr
   const handleFileProcess = (file: File) => {
     if (!file) return;
 
-    // Check size limit (limit attachment size to 10MB to avoid overwhelming memory/disk)
-    if (file.size > 10 * 1024 * 1024) {
-      setError("File size exceeds 10MB limit. Please choose a smaller document.");
+    // Check size limit (limit attachment size to 100MB to avoid overwhelming memory/disk)
+    if (file.size > 100 * 1024 * 1024) {
+      setError("File size exceeds 100MB limit. Please choose a smaller document.");
       return;
     }
 
@@ -146,14 +147,22 @@ export default function UploadForm({ onAddNote, currentUserEmail }: UploadFormPr
   };
 
   return (
-    <div id="notes-uploader-card" className="w-full bg-white rounded-2xl border border-amber-900/10 p-5 shadow-sm">
+    <div id="notes-uploader-card" className={`w-full border p-5 rounded-2xl shadow-sm transition-all duration-350 ${
+      theme === "dark"
+        ? "bg-slate-900/85 border-slate-800 text-white"
+        : "bg-white border-amber-900/10 text-slate-900"
+    }`}>
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-base font-bold font-serif text-amber-950 flex items-center gap-2">
-            <BookOpen className="w-5 h-5 text-amber-900" />
+          <h2 className={`text-base font-bold font-serif flex items-center gap-2 ${
+            theme === "dark" ? "text-slate-100" : "text-amber-950"
+          }`}>
+            <BookOpen className={`w-5 h-5 ${theme === "dark" ? "text-amber-400" : "text-amber-900"}`} />
             <span>Upload & Publish Study Notes</span>
           </h2>
-          <p className="text-xs text-slate-500 font-sans mt-0.5">
+          <p className={`text-xs font-sans mt-0.5 ${
+            theme === "dark" ? "text-slate-400" : "text-slate-500"
+          }`}>
             Share physics derivations, chemistry diagrams, computer science code, or literature guides with your class.
           </p>
         </div>
@@ -162,8 +171,8 @@ export default function UploadForm({ onAddNote, currentUserEmail }: UploadFormPr
           onClick={() => setIsOpen(!isOpen)}
           className={`px-4 py-2 rounded-xl text-xs font-semibold shadow-sm transition-all duration-150 ${
             isOpen
-              ? "bg-slate-900 hover:bg-slate-800 text-white"
-              : "bg-amber-800 hover:bg-amber-900 text-white"
+              ? theme === "dark" ? "bg-slate-800 hover:bg-slate-700 text-white border border-slate-700" : "bg-slate-900 hover:bg-slate-800 text-white"
+              : theme === "dark" ? "bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold" : "bg-amber-800 hover:bg-amber-900 text-white"
           }`}
         >
           {isOpen ? "Close Editor" : "Compose Note"}
@@ -171,7 +180,9 @@ export default function UploadForm({ onAddNote, currentUserEmail }: UploadFormPr
       </div>
 
       {isOpen && (
-        <form onSubmit={handleSubmit} className="mt-5 pt-5 border-t border-slate-100 space-y-4">
+        <form onSubmit={handleSubmit} className={`mt-5 pt-5 border-t space-y-4 ${
+          theme === "dark" ? "border-slate-800" : "border-slate-100"
+        }`}>
           {error && (
             <div className="p-3 bg-rose-50 border border-rose-200 text-rose-800 text-xs rounded-lg flex items-center gap-2">
               <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
@@ -181,7 +192,9 @@ export default function UploadForm({ onAddNote, currentUserEmail }: UploadFormPr
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="md:col-span-2">
-              <label className="text-xs font-semibold text-slate-700 block mb-1">
+              <label className={`text-xs font-semibold block mb-1 ${
+                theme === "dark" ? "text-slate-300" : "text-slate-700"
+              }`}>
                 Note Title <span className="text-rose-500">*</span>
               </label>
               <input
@@ -190,21 +203,31 @@ export default function UploadForm({ onAddNote, currentUserEmail }: UploadFormPr
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full text-xs p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-amber-800 focus:bg-white"
+                className={`w-full text-xs p-3 rounded-xl focus:outline-none transition-colors ${
+                  theme === "dark"
+                    ? "bg-slate-950 border-slate-800 text-white focus:border-amber-500"
+                    : "bg-slate-50 border-slate-200 text-slate-900 focus:border-amber-800 focus:bg-white"
+                }`}
               />
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-slate-700 block mb-1">
+              <label className={`text-xs font-semibold block mb-1 ${
+                theme === "dark" ? "text-slate-300" : "text-slate-700"
+              }`}>
                 Subject Board <span className="text-rose-500">*</span>
               </label>
               <select
                 value={subject}
                 onChange={(e) => setSubject(e.target.value as StudyNote["subject"])}
-                className="w-full text-xs p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-amber-800 focus:bg-white"
+                className={`w-full text-xs p-3 rounded-xl focus:outline-none transition-colors ${
+                  theme === "dark"
+                    ? "bg-slate-950 border-slate-800 text-white focus:border-amber-500"
+                    : "bg-slate-50 border-slate-200 text-slate-900 focus:border-amber-800 focus:bg-white"
+                }`}
               >
                 {SUBJECT_OPTIONS.map((sub) => (
-                  <option key={sub} value={sub}>
+                  <option key={sub} value={sub} className={theme === "dark" ? "bg-slate-950 text-white" : ""}>
                     {sub}
                   </option>
                 ))}
@@ -213,7 +236,9 @@ export default function UploadForm({ onAddNote, currentUserEmail }: UploadFormPr
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-slate-700 block mb-1">
+            <label className={`text-xs font-semibold block mb-1 ${
+              theme === "dark" ? "text-slate-300" : "text-slate-700"
+            }`}>
               Author Name
             </label>
             <div className="relative">
@@ -225,27 +250,41 @@ export default function UploadForm({ onAddNote, currentUserEmail }: UploadFormPr
                 placeholder="e.g. Adarsh (Admin), Sanya S. (optional)"
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
-                className="w-full text-xs pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-amber-800 focus:bg-white"
+                className={`w-full text-xs pl-10 pr-4 py-3 rounded-xl focus:outline-none transition-colors ${
+                  theme === "dark"
+                    ? "bg-slate-950 border-slate-800 text-white focus:border-amber-500"
+                    : "bg-slate-50 border-slate-200 text-slate-900 focus:border-amber-800 focus:bg-white"
+                }`}
               />
             </div>
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-slate-700 block mb-1 flex items-center justify-between">
+            <label className={`text-xs font-semibold block mb-1 flex items-center justify-between ${
+              theme === "dark" ? "text-slate-300" : "text-slate-700"
+            }`}>
               <span>Write Notes Content (Supports Markdown headers & list styling)</span>
               <span className="text-[10px] text-slate-400 font-mono">Use standard heading lines e.g. # Topic</span>
             </label>
             {/* Rule-lined paper style notes content area */}
-            <div className="relative border border-amber-900/10 rounded-xl overflow-hidden bg-[#fdfcf7] shadow-inner">
-              <div className="absolute left-8 top-0 bottom-0 w-[1px] bg-rose-200 pointer-events-none" />
+            <div className={`relative border rounded-xl overflow-hidden shadow-inner ${
+              theme === "dark" ? "border-slate-800 bg-slate-950" : "border-amber-900/10 bg-[#fdfcf7]"
+            }`}>
+              <div className={`absolute left-8 top-0 bottom-0 w-[1px] pointer-events-none ${
+                theme === "dark" ? "bg-rose-950/40" : "bg-rose-200"
+              }`} />
               <textarea
                 placeholder="Type your study summary or notes here directly. You can use markdown titles, bullet points, and equations..."
                 rows={10}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                className="w-full text-xs font-sans p-6 pl-12 bg-transparent focus:outline-none resize-y leading-6"
+                className={`w-full text-xs font-sans p-6 pl-12 bg-transparent focus:outline-none resize-y leading-6 ${
+                  theme === "dark" ? "text-slate-100" : "text-slate-800"
+                }`}
                 style={{
-                  backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px)",
+                  backgroundImage: theme === "dark"
+                    ? "linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px)"
+                    : "linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px)",
                   backgroundSize: "100% 24px",
                 }}
               />
@@ -254,7 +293,9 @@ export default function UploadForm({ onAddNote, currentUserEmail }: UploadFormPr
 
           {/* Usability-Complaint Drag & Drop File Upload Station */}
           <div>
-            <label className="text-xs font-semibold text-slate-700 block mb-1">
+            <label className={`text-xs font-semibold block mb-1 ${
+              theme === "dark" ? "text-slate-300" : "text-slate-700"
+            }`}>
               Attach Reference Document / File (PDF, Image, Text)
             </label>
 
@@ -275,26 +316,40 @@ export default function UploadForm({ onAddNote, currentUserEmail }: UploadFormPr
                 onClick={triggerFileInput}
                 className={`w-full py-6 px-4 border-2 border-dashed rounded-xl cursor-pointer flex flex-col items-center justify-center transition-all ${
                   isDragActive
-                    ? "border-amber-800 bg-amber-50"
-                    : "border-slate-300 hover:border-amber-800 hover:bg-amber-50/20"
+                    ? theme === "dark"
+                      ? "border-amber-500 bg-slate-950"
+                      : "border-amber-800 bg-amber-50"
+                    : theme === "dark"
+                      ? "border-slate-800 hover:border-amber-500 hover:bg-slate-950/40"
+                      : "border-slate-300 hover:border-amber-800 hover:bg-amber-50/20"
                 }`}
               >
                 <Upload className="w-8 h-8 text-slate-400 mb-2" />
-                <span className="text-xs text-slate-700 font-semibold">
-                  Drag and drop your document file here, or <span className="text-amber-800 hover:underline">browse</span>
+                <span className={`text-xs font-semibold ${
+                  theme === "dark" ? "text-slate-300" : "text-slate-700"
+                }`}>
+                  Drag and drop your document file here, or <span className={theme === "dark" ? "text-amber-400 hover:underline" : "text-amber-800 hover:underline"}>browse</span>
                 </span>
                 <span className="text-[10px] text-slate-400 mt-1">
-                  Supports PDF, PNG, JPG, Text files up to 10MB
+                  Supports PDF, PNG, JPG, Text files up to 100MB
                 </span>
               </div>
             ) : (
-              <div className="flex items-center justify-between p-3.5 bg-amber-50/50 border border-amber-200 rounded-xl">
+              <div className={`flex items-center justify-between p-3.5 border rounded-xl ${
+                theme === "dark"
+                  ? "bg-slate-950 border-slate-800"
+                  : "bg-amber-50/50 border border-amber-200"
+              }`}>
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-amber-100 rounded-lg text-amber-900 shrink-0">
+                  <div className={`p-2 rounded-lg shrink-0 ${
+                    theme === "dark" ? "bg-slate-900 text-amber-400" : "bg-amber-100 text-amber-900"
+                  }`}>
                     <FileText className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-xs font-semibold text-slate-900 truncate max-w-[200px] sm:max-w-md">
+                    <div className={`text-xs font-semibold truncate max-w-[200px] sm:max-w-md ${
+                      theme === "dark" ? "text-slate-100" : "text-slate-900"
+                    }`}>
                       {attachedFile.name}
                     </div>
                     <div className="text-[10px] text-slate-500 font-mono">
@@ -320,14 +375,22 @@ export default function UploadForm({ onAddNote, currentUserEmail }: UploadFormPr
             <button
               type="button"
               onClick={() => setIsOpen(false)}
-              className="text-xs text-slate-500 hover:text-slate-800 px-4 py-2 rounded-xl border border-slate-200 transition-colors"
+              className={`text-xs px-4 py-2 rounded-xl border transition-colors ${
+                theme === "dark"
+                  ? "text-slate-400 hover:text-slate-200 border-slate-800 hover:bg-slate-950"
+                  : "text-slate-500 hover:text-slate-800 border-slate-200 hover:bg-slate-50"
+              }`}
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="text-xs font-semibold bg-amber-800 hover:bg-amber-900 disabled:bg-slate-300 text-white px-5 py-2 rounded-xl shadow-sm flex items-center gap-2 transition-colors"
+              className={`text-xs font-semibold px-5 py-2 rounded-xl shadow-sm flex items-center gap-2 transition-colors ${
+                theme === "dark"
+                  ? "bg-amber-500 hover:bg-amber-600 disabled:bg-slate-800 text-slate-950 font-bold"
+                  : "bg-amber-800 hover:bg-amber-900 disabled:bg-slate-300 text-white"
+              }`}
             >
               {isSubmitting ? (
                 <>

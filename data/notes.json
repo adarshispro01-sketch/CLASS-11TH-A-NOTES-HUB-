@@ -1,0 +1,74 @@
+[
+  {
+    "id": "note-1782441269789",
+    "title": "Test Note from SDK",
+    "subject": "Physics",
+    "content": "This is a persistent test note to verify active Firestore database.",
+    "author": "Adarsh (Admin)",
+    "date": "2026-06-26",
+    "fileAttached": false
+  },
+  {
+    "id": "note-1782441138125",
+    "title": "Test Note from SDK",
+    "subject": "Physics",
+    "content": "This is a persistent test note to verify active Firestore database.",
+    "author": "Adarsh (Admin)",
+    "date": "2026-06-26",
+    "fileAttached": false
+  },
+  {
+    "id": "note-1782441112299",
+    "title": "Test Note from SDK",
+    "subject": "Physics",
+    "content": "This is a persistent test note to verify active Firestore database.",
+    "author": "Adarsh (Admin)",
+    "date": "2026-06-26",
+    "fileAttached": false
+  },
+  {
+    "id": "note-1",
+    "title": "Kinematics: Projectile & Relative Motion",
+    "subject": "Physics",
+    "content": "# Physics - Kinematics Summary\n\n## Projectile Motion\nProjectile motion is a form of motion experienced by an object or particle (a projectile) that is thrown near the Earth's surface and moves along a curved path under the action of gravity only.\n\n### Key Formulas:\n1. **Time of Flight (T):** \n   $$T = \\frac{2u \\sin\\theta}{g}$$\n2. **Horizontal Range (R):** \n   $$R = \\frac{u^2 \\sin 2\\theta}{g}$$\n   *Range is maximum when $\\theta = 45^\\circ$*\n3. **Maximum Height (H):** \n   $$H = \\frac{u^2 \\sin^2\\theta}{2g}$$\n4. **Equation of Trajectory:**\n   $$y = x\\tan\\theta - \\frac{gx^2}{2u^2\\cos^2\\theta}$$\n\n## Relative Motion in 2D\n* **River-Boat Problems:**\n  * To cross the river in shortest time: Boat must head perpendicular to the river flow ($\\theta = 90^\\circ$). Time $t = d/v_b$.\n  * To cross the river in shortest path (zero drift): Boat must head at an angle $\\sin\\alpha = v_r/v_b$ upstream.\n* **Rain-Umbrella Problems:**\n  * Relative velocity of rain w.r.t. man: $\\vec{v}_{rm} = \\vec{v}_r - \\vec{v}_m$. Hold the umbrella in the direction of $\\vec{v}_{rm}$ to protect yourself.",
+    "author": "Adarsh (Admin)",
+    "date": "2026-06-24",
+    "fileAttached": false
+  },
+  {
+    "id": "note-2",
+    "title": "Bohr's Atomic Model & Quantum Numbers",
+    "subject": "Chemistry",
+    "content": "# Chemistry - Structure of Atom\n\n## Bohr's Model of Hydrogen Atom\nNiels Bohr proposed a model for the hydrogen atom based on Planck's quantum theory.\n\n### Postulates:\n1. Electrons revolve around the nucleus in certain stable circular orbits without radiating energy.\n2. The angular momentum of the electron is quantized:\n   $$mvr = n\\frac{h}{2\\pi}$$\n3. Energy is emitted or absorbed only when an electron jumps from one orbit to another:\n   $$\\Delta E = E_2 - E_1 = h\\nu$$\n\n### Radius and Energy:\n* **Radius of $n$-th orbit:** $r_n = 0.529 \\times \\frac{n^2}{Z}$ Å\n* **Energy of $n$-th orbit:** $E_n = -13.6 \\times \\frac{Z^2}{n^2}$ eV\n\n## Quantum Numbers\nQuantum numbers describe the state, energy, and orientation of orbitals and electrons:\n1. **Principal Quantum Number ($n$):** Determines size and energy of shell ($n = 1, 2, 3...$).\n2. **Azimuthal Quantum Number ($l$):** Determines shape of orbital ($l = 0$ to $n-1$).\n   * $l=0$ (s), $l=1$ (p), $l=2$ (d), $l=3$ (f).\n3. **Magnetic Quantum Number ($m_l$):** Determines spatial orientation ($m_l = -l$ to $+l$).\n4. **Spin Quantum Number ($m_s$):** Specifies spin direction ($+1/2$ or $-1/2$).",
+    "author": "Sanya S.",
+    "date": "2026-06-23",
+    "fileAttached": false
+  },
+  {
+    "id": "note-3",
+    "title": "Sets, Relations & Venn Diagrams",
+    "subject": "Mathematics",
+    "content": "# Mathematics - Sets & Relations\n\n## Sets Definition\nA set is a well-defined collection of distinct objects. \n\n### Representation:\n1. **Roster / Tabular Form:** List elements inside curly braces, e.g., $A = \\{1, 2, 3, 4, 5\\}$.\n2. **Set-Builder Form:** State the properties characterizing the elements, e.g., $A = \\{x : x \\in \\mathbb{N} \\text{ and } x < 6\\}$.\n\n### Important Formulas (Union & Intersection):\nFor any two finite sets $A$ and $B$:\n* $n(A \\cup B) = n(A) + n(B) - n(A \\cap B)$\n\nFor three finite sets $A$, $B$ and $C$:\n* $n(A \\cup B \\cup C) = n(A) + n(B) + n(C) - n(A \\cap B) - n(B \\cap C) - n(A \\cap C) + n(A \\cap B \\cap C)$\n\n## Relations\n* A relation $R$ from set $A$ to set $B$ is a subset of the Cartesian product $A \\times B$.\n* **Domain:** Set of first coordinates of ordered pairs in $R$.\n* **Range:** Set of second coordinates of ordered pairs in $R$.\n* **Codomain:** The whole set $B$.",
+    "author": "Rahul K.",
+    "date": "2026-06-22",
+    "fileAttached": false
+  },
+  {
+    "id": "note-4",
+    "title": "Python Flow Control and Loops Guide",
+    "subject": "Computer Science",
+    "content": "# Computer Science - Python Basics\n\n## Conditional Statements\nConditional structures in Python execute different blocks of code based on conditions.\n\n```python\nscore = 85\nif score >= 90:\n    grade = \"A\"\nelif score >= 80:\n    grade = \"B\"\nelse:\n    grade = \"C\"\nprint(f\"Your grade is: {grade}\")\n```\n\n## Iteration / Loops\n\n### 1. The `while` Loop\nRepeats a block of code as long as a condition is true.\n```python\ncount = 1\nwhile count <= 5:\n    print(f\"Iteration {count}\")\n    count += 1\n```\n\n### 2. The `for` Loop\nIterates over a sequence (list, tuple, string, or range).\n```python\n# Iterating from 0 to 4\nfor i in range(5):\n    print(i)\n\n# Iterating through a list\nsubjects = [\"Physics\", \"Chemistry\", \"Maths\"]\nfor sub in subjects:\n    print(f\"Studying {sub}\")\n```\n\n### Loop Control:\n* `break`: Terminates the loop prematurely.\n* `continue`: Skips the current iteration and moves to the next.\n* `pass`: Placeholder statement (does nothing).",
+    "author": "Priyan Patel",
+    "date": "2026-06-20",
+    "fileAttached": false
+  },
+  {
+    "id": "note-5",
+    "title": "The Portrait of a Lady - Key Themes",
+    "subject": "English",
+    "content": "# English Literature - The Portrait of a Lady\n**Author:** Khushwant Singh\n\n## Summary Overview\n\"The Portrait of a Lady\" is an autobiographical pen-portrait of the author's grandmother. It traces the beautiful relationship between the grandmother and her grandson as it goes through several developmental phases.\n\n## Phases of Their Relationship\n\n1. **Phase 1: Village Life**\n   * Complete companionship. She wakes him up, prepares his wooden slate, and accompanies him to school adjacent to the temple.\n2. **Phase 2: City Life (Turning Point)**\n   * They shift to the city. The author joins an English school and goes by motor bus. She can no longer help him with lessons (Science, English, Music). They see less of each other, creating a silent rift.\n3. **Phase 3: University Days**\n   * The author is given a separate room. The final link of their friendship is snapped. She accepts her seclusion with resignation and spends time spinning wheel and feeding sparrows.\n\n## Core Themes\n* **Generation Gap & Seclusion:** The shifting dynamics of family bonds when moving into urban modernity.\n* **The Beauty of Unspoken Affection:** The deep spiritual love expressed through quiet prayer and devotion.\n* **Animal Connection:** The grandmother's relationship with dogs in the village and sparrows in the city, showing her kind soul.",
+    "author": "Anjali Gupta",
+    "date": "2026-06-18",
+    "fileAttached": false
+  }
+]
